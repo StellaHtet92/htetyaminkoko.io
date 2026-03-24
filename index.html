@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Htet Yamin Ko Ko – Earth Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky: #c8dff0;
+      --deep: #0d2235;
+      --ocean: #1a4a6e;
+      --moss: #3d6b4f;
+      --sand: #e8dcc8;
+      --warm: #f2ece0;
+      --accent: #e05c2e;
+      --text: #1a1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(232,220,200,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(13,34,53,0.1);
+    }
+    nav .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--deep);
+      letter-spacing: 0.02em;
+    }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--ocean); text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 6rem 3rem 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(200,223,240,0.5) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(61,107,79,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-text { position: relative; z-index: 1; }
+    .hero-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--moss);
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-label::before {
+      content: ''; display: block;
+      width: 32px; height: 1px; background: var(--moss);
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.08;
+      color: var(--deep);
+      margin-bottom: 1.5rem;
+    }
+    h1 em { color: var(--accent); font-style: italic; }
+    .hero-bio {
+      font-size: 1.05rem; line-height: 1.8;
+      color: #3a3a3a; max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em;
+      text-decoration: none; border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--deep); color: var(--warm);
+    }
+    .btn-primary:hover { background: var(--ocean); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1.5px solid var(--deep); color: var(--deep);
+    }
+    .btn-outline:hover { background: var(--deep); color: var(--warm); transform: translateY(-2px); }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid rgba(13,34,53,0.1);
+      border-radius: 4px;
+      padding: 1.4rem 1.8rem;
+      display: flex; align-items: center; gap: 1.2rem;
+      box-shadow: 4px 4px 0 rgba(13,34,53,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: slideIn 0.6s ease both;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 4px 8px 0 rgba(13,34,53,0.1); }
+    .stat-card:nth-child(1) { animation-delay: 0.1s; margin-left: 0; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; margin-left: 2rem; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; margin-left: 1rem; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; margin-left: 3rem; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .stat-icon {
+      font-size: 1.6rem; width: 48px; text-align: center;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; color: var(--deep); line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.78rem; color: #666; margin-top: 0.2rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 3rem; }
+    .section-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--deep); margin-bottom: 3rem;
+      line-height: 1.15;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--deep);
+      color: var(--warm);
+    }
+    #about .section-tag { color: var(--sky); }
+    #about h2 { color: var(--sand); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-text p {
+      font-size: 1rem; line-height: 1.9;
+      color: rgba(232,220,200,0.85);
+      margin-bottom: 1.2rem;
+    }
+    .skills-list {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 2rem;
+    }
+    .skill-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; padding: 0.4rem 0.9rem;
+      border: 1px solid rgba(200,223,240,0.3);
+      color: var(--sky); border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+    .lang-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+    .lang-item { display: flex; justify-content: space-between; align-items: center; }
+    .lang-name { font-size: 0.95rem; color: var(--sand); }
+    .lang-level {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--sky); letter-spacing: 0.05em;
+    }
+    .lang-bar {
+      height: 3px; background: rgba(255,255,255,0.1);
+      border-radius: 2px; margin-top: 0.4rem; overflow: hidden;
+    }
+    .lang-fill { height: 100%; background: var(--sky); border-radius: 2px; }
+    .about-aside h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem; color: var(--sand);
+      margin-bottom: 1.5rem; margin-top: 3rem;
+    }
+    .about-aside h3:first-child { margin-top: 0; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--warm); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: rgba(13,34,53,0.12);
+    }
+    .tl-item {
+      padding-left: 2.5rem; margin-bottom: 3rem;
+      position: relative;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .tl-item.visible { opacity: 1; transform: translateY(0); }
+    .tl-dot {
+      position: absolute; left: -5px; top: 6px;
+      width: 12px; height: 12px;
+      background: var(--accent); border-radius: 50%;
+      border: 2px solid var(--warm);
+    }
+    .tl-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      letter-spacing: 0.06em; margin-bottom: 0.4rem;
+    }
+    .tl-role {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem; color: var(--deep);
+      margin-bottom: 0.2rem;
+    }
+    .tl-org {
+      font-size: 0.88rem; color: var(--ocean);
+      font-weight: 500; margin-bottom: 0.8rem;
+    }
+    .tl-desc {
+      font-size: 0.92rem; line-height: 1.75;
+      color: #444; max-width: 600px;
+    }
+
+    /* ── RESEARCH ── */
+    #research { background: #f0ebe0; }
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .research-card {
+      background: white;
+      border: 1px solid rgba(13,34,53,0.08);
+      border-radius: 4px; padding: 1.8rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .research-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent);
+    }
+    .research-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(13,34,53,0.1);
+    }
+    .rc-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; color: #999; letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+    .rc-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; color: var(--deep);
+      line-height: 1.4; margin-bottom: 0.8rem;
+    }
+    .rc-journal {
+      font-size: 0.8rem; color: var(--ocean);
+      font-weight: 500; font-style: italic;
+    }
+    .rc-status {
+      display: inline-block; margin-top: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; padding: 0.25rem 0.7rem;
+      background: rgba(224,92,46,0.1); color: var(--accent);
+      border-radius: 2px; letter-spacing: 0.05em;
+    }
+
+    /* ── AWARDS ── */
+    #awards { background: var(--deep); }
+    #awards .section-tag { color: var(--sky); }
+    #awards h2 { color: var(--sand); }
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .award-card {
+      border: 1px solid rgba(200,223,240,0.2);
+      border-radius: 4px; padding: 1.5rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .award-card:hover {
+      background: rgba(200,223,240,0.07);
+      border-color: rgba(200,223,240,0.4);
+    }
+    .award-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      letter-spacing: 0.1em; margin-bottom: 0.6rem;
+    }
+    .award-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; color: var(--sand);
+      line-height: 1.4; margin-bottom: 0.5rem;
+    }
+    .award-desc {
+      font-size: 0.82rem; color: rgba(232,220,200,0.6);
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--warm); text-align: center; }
+    #contact h2 { margin-bottom: 1rem; }
+    #contact p {
+      font-size: 1.05rem; color: #555;
+      max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.75;
+    }
+    .contact-links {
+      display: flex; justify-content: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border: 1.5px solid var(--deep);
+      color: var(--deep); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500;
+      border-radius: 2px; letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { background: var(--deep); color: var(--warm); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep); color: rgba(232,220,200,0.5);
+      text-align: center; padding: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.06em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.2rem; }
+      #hero { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; gap: 3rem; }
+      .hero-visual { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Htet Yamin Ko Ko</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-label">Postdoctoral Fellow · ISSI Bern</div>
+    <h1>Earth Scientist &amp; <em>Urban Climate</em> Researcher</h1>
+    <p class="hero-bio">
+      I study how cities heat up, expand, and adapt — using satellites, machine learning, and geospatial modeling to inform climate-resilient urban futures.
+    </p>
+    <div class="hero-links">
+      <a href="https://scholar.google.com/citations?user=xoTQONcAAAAJ&hl=en" target="_blank" class="btn btn-primary">Google Scholar ↗</a>
+      <a href="https://github.com/StellaHtet92" target="_blank" class="btn btn-outline">GitHub</a>
+      <a href="mailto:htetyaminkokoedu@gmail.com" class="btn btn-outline">Email</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="stat-card">
+      <div class="stat-icon">🛰️</div>
+      <div>
+        <div class="stat-num">Local Climate Zone Mapping</div>
+        <div class="stat-lbl">Based on Embedding Datasets (Google AlphaEarth & TESSERA)</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🌡️</div>
+      <div>
+        <div class="stat-num">UHI</div>
+        <div class="stat-lbl">Urban Heat Island and Local Air Temperature Analysis, Bern Switzerland</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🤖</div>
+      <div>
+        <div class="stat-num">97.7%</div>
+        <div class="stat-lbl">Accuracy in ECG arrhythmia Detection Model</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🌍</div>
+      <div>
+        <div class="stat-num">2 Regions</div>
+        <div class="stat-lbl">Research across Southeast Asia &amp; Europe </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="section-tag">About Me</p>
+      <h2>Bridging Earth Observation &amp; Climate Policy</h2>
+      <p>I hold a Doctor of Engineering in Remote Sensing and GIS from the Asian Institute of Technology, Thailand. Currently, I am a Postdoctoral Fellow at the International Space Science Institute (ISSI) in Bern, Switzerland, where I investigate urban climate dynamics, Urban Heat Island intensity, and the role of blue-green infrastructure in climate adaptation.</p>
+      <p>My research bridges satellite-based Earth observation, deep learning, and spatial-temporal modeling to produce policy-relevant, reproducible science. I collaborate with the Urban Climate group at the University of Bern and the Wyss Academy for Nature.</p>
+      <p>Previously, I collaborated with the FAO and IIASA on crop suitability assessment and geospatial analysisacross Afghanistan and the Solomon Islands.</p>
+      <div class="skills-list">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">R</span>
+        <span class="skill-tag">Google Earth Engine</span>
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Deep Learning</span>
+        <span class="skill-tag">ArcGIS / QGIS</span>
+        <span class="skill-tag">MATLAB</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">Urban Climate</span>
+        <span class="skill-tag">Ecosystem Services</span>
+        <span class="skill-tag">Convolutional Neural Networks</span>
+        <span class="skill-tag">Remote Sensing</span>
+      </div>
+    </div>
+    <div class="about-aside">
+      <h3>Languages</h3>
+      <div class="lang-list">
+        <div>
+          <div class="lang-item">
+            <span class="lang-name">Burmese</span>
+            <span class="lang-level">Native</span>
+          </div>
+          <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="lang-item">
+            <span class="lang-name">English</span>
+            <span class="lang-level">Fluent</span>
+          </div>
+          <div class="lang-bar"><div class="lang-fill" style="width:95%"></div></div>
+        </div>
+        <div>
+          <div class="lang-item">
+            <span class="lang-name">German</span>
+            <span class="lang-level">A1.2 · Learning</span>
+          </div>
+          <div class="lang-bar"><div class="lang-fill" style="width:18%"></div></div>
+        </div>
+      </div>
+
+      <h3>Memberships</h3>
+      <div class="lang-list">
+        <p style="color:rgba(232,220,200,0.75); font-size:0.9rem; line-height:1.6">European Geoscience Union</p>
+        <p style="color:rgba(232,220,200,0.75); font-size:0.9rem; line-height:1.6">U4SSC Thematic Group on AI in Cities, ITU/UN</p>
+      </div>
+
+      <h3>Location</h3>
+      <p style="color:rgba(232,220,200,0.75); font-size:0.9rem; line-height:1.6">📍 Bern, Switzerland<br>Swiss Permit B</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-tag">Career</p>
+  <h2>Experience</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Jun 2025 – Present</div>
+      <div class="tl-role">Postdoctoral Fellow in Earth Science</div>
+      <div class="tl-org">International Space Science Institute (ISSI), Bern, Switzerland</div>
+      <p class="tl-desc">Conduct urban climate and UHI research in Bern, integrating satellite and ground-based observations with Google Earth Engine, Landsat, and ECOSTRESS. Collaborating with the University of Bern and Wyss Academy for Nature.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Aug 2024 – May 2025</div>
+      <div class="tl-role">Senior Research Associate</div>
+      <div class="tl-org">Geoinformatics Centre, Asian Institute of Technology, Thailand</div>
+      <p class="tl-desc">Led Earth Observation analyses for the Solomon Islands. Delivered geospatial capacity-building training for FAO Afghanistan. Collaborated with IIASA and FAO on PyAEZ for crop suitability assessment.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Sept 2021 – May 2025</div>
+      <div class="tl-role">Research Assistant</div>
+      <div class="tl-org">KGEO Centre, King Mongkut's University of Technology Thonburi, Thailand</div>
+      <p class="tl-desc">Led Web GIS development and EO-based modelling for UHI, Hazard mapping, and urban expansion analysis across Asia and the United States. Achieved 90% accuracy in UHI and urban growth modelling.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Sept 2018 – May 2020</div>
+      <div class="tl-role">Project Manager</div>
+      <div class="tl-org">Anzer IT Healthcare, Mandalay, Myanmar</div>
+      <p class="tl-desc">Managed delivery of hospital management systems for clients in Canada and Myanmar. Bridged product teams and clinical workflows, translating requirements into technical specifications.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <p class="section-tag">Publications &amp; Manuscripts</p>
+  <h2>Research</h2>
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="rc-year">UNDER REVIEW</div>
+      <div class="rc-title"> A 35-Year Satellite-Based Assessment of Urban Expansion in Bern, Switzerland</div>
+      <div class="rc-journal">With Rast, Burger, Gubler, Brönnimann</div>
+      <span class="rc-status">Under Review</span>
+    </div>
+    <div class="research-card">
+      <div class="rc-year">2026</div>
+      <div class="rc-title">From Rooftops to Ecosystem Services: Deep Learning–Driven Green Roof Potential Assessment in Bern, Switzerland</div>
+      <div class="rc-journal">EGU General Assembly 2026, Vienna, Austria, 3–8 May 2026, EGU26-4820</div>
+    </div>
+    <div class="research-card">
+      <div class="rc-year">2023</div>
+      <div class="rc-title">Real-time Remote Patient Monitoring and Alarming System for Non-communicable Lifestyle Diseases</div>
+      <div class="rc-journal">International Journal of Telemedicine and Applications, Hindawi</div>
+    </div>
+    <div class="research-card">
+      <div class="rc-year">2023</div>
+      <div class="rc-title">Urban Expansion and Urban Heat Island Effects on Bangkok Metropolitan Area in the Context of Eastern Economic Corridor</div>
+      <div class="rc-journal">Urban Climate, ScienceDirect</div>
+    </div>
+    <div class="research-card">
+      <div class="rc-year">2023</div>
+      <div class="rc-title">Recent Trend in Telecardiology and Telemedicine: Where are they leading now?</div>
+      <div class="rc-journal">IEEE Computer Society Special Issue on Computing in Telemedicine</div>
+    </div>
+    <div class="research-card">
+      <div class="rc-year">2020</div>
+      <div class="rc-title">Impact of Behavior, Healthcare and Socioeconomic Factors on COVID-19 Situation of ASEAN Countries</div>
+      <div class="rc-journal">Health GIS Conference Proceedings 2020</div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <p class="section-tag">Recognition</p>
+  <h2>Honors &amp; Awards</h2>
+  <div class="awards-grid">
+    <div class="award-card">
+      <div class="award-year">2025</div>
+      <div class="award-name">ISSI Fellowship in Earth Science</div>
+      <div class="award-desc">Competitive international fellowship supporting high-impact research in Earth system science and climate applications.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">2022</div>
+      <div class="award-name">Grand Prize — AIT SDG Research Fair</div>
+      <div class="award-desc">Recognized for research with significant impact on the United Nations' Sustainable Development Goals.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">2021</div>
+      <div class="award-name">Best Research Poster — HealthGIS Conference</div>
+      <div class="award-desc">7th International Conference on HealthGIS, Thailand.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">2020</div>
+      <div class="award-name">Japanese Government Scholarship</div>
+      <div class="award-desc">Full scholarship from the Japanese Government and AIT to pursue doctoral studies.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">2020</div>
+      <div class="award-name">1000 IIT Fellowships for ASEAN Students</div>
+      <div class="award-desc">Highly competitive fellowship for doctoral studies at IIT Hyderabad, India.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">2013</div>
+      <div class="award-name">Government-to-Government Scholarship (India–Myanmar)</div>
+      <div class="award-desc">Full scholarship for exceptional academic achievement, enabling postgraduate study in software development.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-tag">Get in Touch</p>
+  <h2>Let's Connect</h2>
+  <p>I'm open to research collaborations, speaking invitations, and policy-relevant climate science projects.</p>
+  <div class="contact-links">
+    <a href="mailto:htetyaminkokoedu@gmail.com" class="contact-link">✉ Email</a>
+    <a href="mailto:koko.htetyamin@issibern.ch" class="contact-link">🏛 ISSI Email</a>
+    <a href="https://www.kaggle.com/htetyaminkokoedu" target="_blank" class="contact-link">📊 Kaggle</a>
+    <a href="https://github.com/htetyaminkokoedu" target="_blank" class="contact-link">💻 GitHub</a>
+    <a href="https://scholar.google.com/citations?user=xoTQONcAAAAJ&hl=en" target="_blank" class="contact-link">📚 Google Scholar</a>
+    <a href="https://www.issibern.ch/people/dr-htet-yamin-ko-ko/" target="_blank" class="contact-link">🌐 ISSI Profile</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Htet Yamin Ko Ko · Bern, Switzerland · Built with care
+</footer>
+
+<script>
+  // Scroll-reveal for timeline items
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.tl-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
